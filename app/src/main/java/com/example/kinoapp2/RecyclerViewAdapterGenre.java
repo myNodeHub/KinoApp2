@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kinoapp2.data.model.Film;
-import com.example.kinoapp2.data.model.Genre;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +19,7 @@ import java.util.List;
 
 
 public class RecyclerViewAdapterGenre extends RecyclerView.Adapter<RecyclerViewAdapterGenre.ViewHolder> {
-    private List<Genre> listOfGenre;
+//    private List<Genre> listOfGenre;
     private List<Film> listOfFilms;
     private List<Film> sortedListOfFilms = new ArrayList<>();
     private RecyclerViewAdapterFilm recyclerViewAdapterFilm2;
@@ -28,7 +27,7 @@ public class RecyclerViewAdapterGenre extends RecyclerView.Adapter<RecyclerViewA
 
 
     public RecyclerViewAdapterGenre(Context context, RecyclerViewAdapterFilm recyclerViewAdapterFilm2) {
-        listOfGenre = new ArrayList<>();
+//        listOfGenre = new ArrayList<>();
         listOfFilms = new ArrayList<>();
         this.recyclerViewAdapterFilm2 =  recyclerViewAdapterFilm2;
         this.context = context;
@@ -59,29 +58,31 @@ public class RecyclerViewAdapterGenre extends RecyclerView.Adapter<RecyclerViewA
 //        if (theList.getTitleImage().getUrl() != null) {
 //        Picasso.with(context).load(theList.getTitleImage().getUrl()).into(holder.card_view_image);
 //    }
-        holder.itemGenre.setText("Жанр: " + listOfGenre.get(position).getGenreName());
+        holder.itemGenre.setText("Жанр: " + listOfFilms.get(position).getGenres());
 //        holder.txtInfoRightcol.setText(theList.getInfo().getRightcol());
         holder.cardViewGenre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                sortedListOfFilms.clear();
+//                sortedListOfFilms.clear();
 
-                Iterator<Film> filmIterator = listOfFilms.iterator();//создаем итератор
-                while (filmIterator.hasNext()) {//до тех пор, пока в списке есть элементы
+//   //записываю в отдельный массив все жанры(здесь или в мейнАк), и тоже самое
 
-                    Film nextFilm = filmIterator.next();//получаем следующий элемент
-                    if (nextFilm.getGenreName().equals(listOfGenre.get(position).getGenreName())) {
-                        System.out.println("&&&&&&&&&&" + nextFilm);
-                        sortedListOfFilms.add(nextFilm);
-                    }
-                }
-                System.out.println(sortedListOfFilms + "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
-                recyclerViewAdapterFilm2.setData(sortedListOfFilms);
-
-                for (int i = 0; i < sortedListOfFilms.size(); i++)
-                    System.out.println("!!!!!!!!!!!!!!!!  " + sortedListOfFilms.get(i).getFilmName() + "  !!!!!!!!!!!!!!!!!!!!!");
-                    System.out.println("------------------------------------------");
+//                Iterator<Film> filmIterator = listOfFilms.iterator();//создаем итератор
+//                while (filmIterator.hasNext()) {//до тех пор, пока в списке есть элементы
+//
+//                    Film nextFilm = filmIterator.next();//получаем следующий элемент
+//                    if (nextFilm.getGenreName().equals(listOfGenre.get(position).getGenreName())) {
+//                        System.out.println("&&&&&&&&&&" + nextFilm);
+//                        sortedListOfFilms.add(nextFilm);
+//                    }
+//                }
+//                System.out.println(sortedListOfFilms + "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+//                recyclerViewAdapterFilm2.setData(sortedListOfFilms);
+//
+//                for (int i = 0; i < sortedListOfFilms.size(); i++)
+//                    System.out.println("!!!!!!!!!!!!!!!!  " + sortedListOfFilms.get(i).getFilmName() + "  !!!!!!!!!!!!!!!!!!!!!");
+//                    System.out.println("------------------------------------------");
 
 
             }
@@ -89,17 +90,20 @@ public class RecyclerViewAdapterGenre extends RecyclerView.Adapter<RecyclerViewA
     }
 
     @Override
+//    public int getItemCount() {
+//        return listOfGenre.size();
+//    }
     public int getItemCount() {
-        return listOfGenre.size();
+        return listOfFilms.size();
     }
 
-    public void setData(List<Genre> data) {
-        this.listOfGenre.addAll(data);
-        notifyDataSetChanged();
-    }
-
-    public void setDataFilm(List<Film> data) {
+    public void setData(List<Film> data) {
         this.listOfFilms.addAll(data);
         notifyDataSetChanged();
     }
+
+//    public void setDataFilm(List<Film> data) {
+//        this.listOfFilms.addAll(data);
+//        notifyDataSetChanged();
+//    }
 }

@@ -1,5 +1,6 @@
 package com.example.kinoapp2.di.modules;
 
+import com.example.kinoapp2.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,17 +13,16 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.kinoapp2.Service.BASE_URL;
 
 
 @Module
 public class RetrofitModule {
 
-//    @Singleton
-//    @Provides
-//    public Retrofit getRetrofit(){
-//        return Retrofit;
-//    }
+    @Singleton
+    @Provides
+    public Service getApi(Retrofit retrofit){
+        return retrofit.create(Service.class);
+    }
 
     @Singleton
     @Provides
@@ -52,7 +52,7 @@ public class RetrofitModule {
     public Retrofit getRetrofit(OkHttpClient client, Gson gson) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl("https://s3-eu-west-1.amazonaws.com/sequeniatesttask/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();

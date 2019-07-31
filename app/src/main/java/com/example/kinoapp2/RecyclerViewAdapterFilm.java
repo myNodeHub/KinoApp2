@@ -45,7 +45,7 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
 //        if (theList.getTitleImage().getUrl() != null) {
 //        Picasso.with(context).load(theList.getTitleImage().getUrl()).into(holder.card_view_image);
 //    }
-        holder.itemFilm.setText("Фильм: " + listOfFilms.get(position).getFilmName());
+        holder.itemFilm.setText("Фильм: " + listOfFilms.get(position).getLocalizedName());
 //        holder.itemGenre.setText("Жанр: ");
 //        holder.txtInfoRightcol.setText(theList.getInfo().getRightcol());
 //        holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -64,9 +64,10 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
 
     public void setData(List<Film> data) {
         notifyDataSetChanged();
-        listOfFilms.clear();
+//        listOfFilms.clear();
+        System.out.println("())))))))))))()()())()()()()( "+ data);
         this.listOfFilms.addAll(data);
         notifyDataSetChanged();
-        System.out.println("())))))))))))()()())()()()()( "+ data);
+
     }
 }
