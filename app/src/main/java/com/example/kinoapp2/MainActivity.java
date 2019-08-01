@@ -8,9 +8,13 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.kinoapp2.data.model.Film;
 import com.example.kinoapp2.data.model.Films;
+import com.example.kinoapp2.data.model.Genre;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -31,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
     public RecyclerViewAdapterFilm recyclerViewAdapterFilm;
     //    ArrayList<Genre> genreList = new ArrayList<>();
     List<Film> filmList = new ArrayList<>();
+    List<Genre> sortedGenre = new ArrayList<>();
+
+    private List<Film> listOfFilms;
+    private List<String> listOfGenres = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,22 @@ public class MainActivity extends AppCompatActivity {
                 filmList = films.getFilms();
                 recyclerViewAdapterFilm.setData(filmList);
                 recyclerViewAdapterGenre.setData(filmList);
+
+                for (Film film : filmList) { //прогон по кол-ву фильмов
+                    for (String genre : film.getGenres()) {//прогон по кол-ву жанров в каждом фильме
+                        listOfGenres.add(genre);
+                    }
+                }
+                Set<String> set = new HashSet<>(listOfGenres); //удаление повторов в листе жанров
+                listOfGenres.clear();
+                listOfGenres.addAll(set); // лист уникальных стрингов жанров
+
+
+                for (String s : listOfGenres) {
+                    sortedGenre.add(new Genre(s)); //заполняю
+                }
+
+                recyclerViewAdapterGenre.setUnicGenre(sortedGenre);
             }
 
             @Override

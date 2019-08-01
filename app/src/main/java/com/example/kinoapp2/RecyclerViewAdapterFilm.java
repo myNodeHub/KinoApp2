@@ -63,8 +63,8 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
     }
 
     public void setData(List<Film> data) {
-        notifyDataSetChanged();
-//        listOfFilms.clear();
+//        notifyDataSetChanged();
+        listOfFilms.clear();
         System.out.println("())))))))))))()()())()()()()( "+ data);
         this.listOfFilms.addAll(data);
         notifyDataSetChanged();
