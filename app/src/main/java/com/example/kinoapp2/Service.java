@@ -7,12 +7,6 @@ import retrofit2.http.GET;
 
 
 public interface Service {
-
-
-
     @GET("films.json")
     Call<Films> getFilms();
-
-//    @GET("")
-//    Call<Film> getFilm(@Url String newslink);
 }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.kinoapp2.data.model.Film;
+import com.example.kinoapp2.ui.fragments.FragmentInteractorListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,14 @@ import java.util.List;
 public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAdapterFilm.ViewHolder> {
     private List<Film> listOfFilms;
     Context context;
-    public RecyclerViewAdapterFilm(Context context) {
+    private FragmentInteractorListener fragmentInteractorListener;
+
+    public RecyclerViewAdapterFilm(Context context, FragmentInteractorListener fragmentInteractorListener) {
 
         listOfFilms = new ArrayList<>();
         this.context= context;
+        this.fragmentInteractorListener = fragmentInteractorListener;
+
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView itemFilm;
@@ -48,14 +53,15 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
         holder.itemFilm.setText("Фильм: " + listOfFilms.get(position).getLocalizedName());
 //        holder.itemGenre.setText("Жанр: ");
 //        holder.txtInfoRightcol.setText(theList.getInfo().getRightcol());
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, NewsActivity.class);
-//                intent.putExtra("url", theList.getInfo().getId());
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.cardViewFilm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fragmentInteractorListener.setFilm(listOfFilms.get(position));
+
+
+            }
+        });
     }
     @Override
     public int getItemCount() {

@@ -1,44 +1,24 @@
 package com.example.kinoapp2;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
+import android.widget.Toast;
 import com.example.kinoapp2.data.model.Film;
-import com.example.kinoapp2.data.model.Films;
-import com.example.kinoapp2.data.model.Genre;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.example.kinoapp2.ui.fragments.Fragment1.Fragment1;
+import com.example.kinoapp2.ui.fragments.Fragment2.Fragment2;
+import com.example.kinoapp2.ui.fragments.FragmentInteractorListener;
 import javax.inject.Inject;
-
 import dagger.android.AndroidInjection;
-import dagger.android.support.DaggerAppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, FragmentInteractorListener {
+
     @Inject
-    Service service;
-
-    Films films = new Films();
-
-    RecyclerView recViwFilm, recViwGenre;
-    public RecyclerViewAdapterGenre recyclerViewAdapterGenre;
-    public RecyclerViewAdapterFilm recyclerViewAdapterFilm;
-    //    ArrayList<Genre> genreList = new ArrayList<>();
-    List<Film> filmList = new ArrayList<>();
-    List<Genre> sortedGenre = new ArrayList<>();
-
-    private List<Film> listOfFilms;
-    private List<String> listOfGenres = new ArrayList<>();
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,49 +26,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recViwGenre = findViewById(R.id.recViwGenre);
-        recViwFilm = findViewById(R.id.recViwFilm);
-
-
-        recyclerViewAdapterFilm = new RecyclerViewAdapterFilm(getApplicationContext());
-        recViwFilm.setLayoutManager(new GridLayoutManager(this, 2));
-        recViwFilm.setAdapter(recyclerViewAdapterFilm); //присвоение рец.вью адаптера
-
-        recyclerViewAdapterGenre = new RecyclerViewAdapterGenre(getApplicationContext(), recyclerViewAdapterFilm);
-        recViwGenre.setLayoutManager(new LinearLayoutManager(getApplicationContext())); //присвоение рец.вью лайоутМэнеджера
-        recViwGenre.setAdapter(recyclerViewAdapterGenre); //присвоение рец.вью адаптера
-
-        service.getFilms().enqueue(new Callback<Films>() {
-            @Override
-            public void onResponse(Call<Films> call, Response<Films> response) {
-                films = response.body();
-                filmList = films.getFilms();
-                recyclerViewAdapterFilm.setData(filmList);
-                recyclerViewAdapterGenre.setData(filmList);
-
-                for (Film film : filmList) { //прогон по кол-ву фильмов
-                    for (String genre : film.getGenres()) {//прогон по кол-ву жанров в каждом фильме
-                        listOfGenres.add(genre);
-                    }
-                }
-                Set<String> set = new HashSet<>(listOfGenres); //удаление повторов в листе жанров
-                listOfGenres.clear();
-                listOfGenres.addAll(set); // лист уникальных стрингов жанров
-
-
-                for (String s : listOfGenres) {
-                    sortedGenre.add(new Genre(s)); //заполняю
-                }
-
-                recyclerViewAdapterGenre.setUnicGenre(sortedGenre);
-            }
-
-            @Override
-            public void onFailure(Call<Films> call, Throwable t) {
-
-            }
-        });
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frr, new Fragment1())
+                    .commit();
+        }
     }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
 
+    @Override
+    public void setFilm(Film film) {
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                film.getLocalizedName(), Toast.LENGTH_SHORT);
+        toast.show();
+        Fragment2 fragment2 = new Fragment2();
+        fragment2.setFilm(film);
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.frr, new Fragment2())
+                .commit();
+    }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+
 import com.example.kinoapp2.di.components.DaggerMainComponent;
 
 import javax.inject.Inject;
