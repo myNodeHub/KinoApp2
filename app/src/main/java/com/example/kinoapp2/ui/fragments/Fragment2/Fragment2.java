@@ -8,39 +8,56 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.kinoapp2.R;
-import com.example.kinoapp2.data.model.Film;
+import com.squareup.picasso.Picasso;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class Fragment2 extends Fragment {
-    TextView textView;
-    Film film;
+    TextView localized_name_tv, backArrow_tv, name_tv, year_tv, rating_tv, description_tv;
+    ImageView image_url_tv;
+    public static Bundle bundleFr;
 
-    public Fragment2() {
-        this.film = new Film();
+    public Fragment2 () {
     }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_fragment2, container, false);
-        textView = (TextView) view.findViewById(R.id.frag2);
-        textView.setText(this.film.getDescription());
+
+        backArrow_tv = view.findViewById(R.id.backArrow_tv);
+        image_url_tv = view.findViewById(R.id.image_url_tv);
+
+        localized_name_tv = view.findViewById(R.id.localized_name_tv);
+        name_tv = view.findViewById(R.id.name_tv);
+        year_tv = view.findViewById(R.id.year_tv);
+        rating_tv = view.findViewById(R.id.rating_tv);
+        description_tv = view.findViewById(R.id.description_tv);
+
+        localized_name_tv.setText(bundleFr.getString("LocalizedName"));
+        name_tv.setText(bundleFr.getString("Name"));
+        year_tv.setText("Год: "+ bundleFr.getInt("Year"));
+        rating_tv.setText(bundleFr.getString("Rating"));
+        if (bundleFr.getString("Description") != null){
+            description_tv.setText(bundleFr.getString("Description"));
+        }else  description_tv.setText("Описание отсутствует.");
+
+        Picasso.with(getContext()).load(bundleFr.getString("ImageUrl"))
+                .placeholder(getContext().getResources().getDrawable(R.drawable.moviedefolt))
+                .error(getContext().getResources().getDrawable(R.drawable.moviedefolt)).into(image_url_tv);
+
         return view;
     }
-    public void setFilm(Film film) {
-        this.film = film;
+
+    public void setFilmBundle(Bundle bundle) {
+
+        bundleFr = bundle;
     }
 }

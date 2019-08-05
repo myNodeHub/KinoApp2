@@ -19,7 +19,6 @@ import com.example.kinoapp2.data.model.Film;
 import com.example.kinoapp2.data.model.Films;
 import com.example.kinoapp2.data.model.Genre;
 import com.example.kinoapp2.ui.fragments.FragmentInteractorListener;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,9 +40,9 @@ public class Fragment1 extends Fragment {
 
     Context context;
 
-    FragmentInteractorListener fragmentInteractorListener;
-
     Films films = new Films();
+
+    FragmentInteractorListener fragmentInteractorListener;
 
     RecyclerView recViwFilm, recViwGenre;
     public RecyclerViewAdapterGenre recyclerViewAdapterGenre;

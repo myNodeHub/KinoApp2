@@ -1,15 +1,17 @@
 package com.example.kinoapp2;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.kinoapp2.data.model.Film;
 import com.example.kinoapp2.ui.fragments.FragmentInteractorListener;
+import com.example.kinoapp2.data.model.Film;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +27,17 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
         listOfFilms = new ArrayList<>();
         this.context= context;
         this.fragmentInteractorListener = fragmentInteractorListener;
-
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView itemFilm;
         public CardView cardViewFilm;
+        public ImageView card_view_image;
 
         public ViewHolder(View view) {
             super(view);
             itemFilm = view.findViewById(R.id.itemFilm);
             cardViewFilm = view.findViewById(R.id.cardViewFilm);
+            card_view_image = view.findViewById(R.id.card_view_image);
         }
     }
     @Override
@@ -46,20 +49,27 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-//        final PojoNewsLatest theList = listOfFilms.get(position);
-//        if (theList.getTitleImage().getUrl() != null) {
-//        Picasso.with(context).load(theList.getTitleImage().getUrl()).into(holder.card_view_image);
-//    }
-        holder.itemFilm.setText("Фильм: " + listOfFilms.get(position).getLocalizedName());
-//        holder.itemGenre.setText("Жанр: ");
-//        holder.txtInfoRightcol.setText(theList.getInfo().getRightcol());
+        final Film theFilm = listOfFilms.get(position);
+
+        Picasso.with(context).load(theFilm.getImageUrl())
+                .placeholder(context.getResources().getDrawable(R.drawable.moviedefolt))
+                .error(context.getResources().getDrawable(R.drawable.moviedefolt)).into(holder.card_view_image);
+
+        holder.itemFilm.setText(listOfFilms.get(position).getLocalizedName());
+
         holder.cardViewFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                fragmentInteractorListener.setFilm(listOfFilms.get(position));
+                Bundle bundle = new Bundle();
+                bundle.putString("LocalizedName", listOfFilms.get(position).getLocalizedName());
+                bundle.putString("Name", listOfFilms.get(position).getName());
+                bundle.putInt("Year", listOfFilms.get(position).getYear());
+                bundle.putString("Rating", listOfFilms.get(position).getRating());
+                bundle.putString("Description", listOfFilms.get(position).getDescription());
+                bundle.putString("ImageUrl", listOfFilms.get(position).getImageUrl());
 
-
+                fragmentInteractorListener.setBundle(bundle);
             }
         });
     }
@@ -69,11 +79,8 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
     }
 
     public void setData(List<Film> data) {
-//        notifyDataSetChanged();
         listOfFilms.clear();
-        System.out.println("())))))))))))()()())()()()()( "+ data);
         this.listOfFilms.addAll(data);
         notifyDataSetChanged();
-
     }
 }
