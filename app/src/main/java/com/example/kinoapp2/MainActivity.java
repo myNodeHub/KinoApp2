@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import dagger.android.support.HasSupportFragmentInjector;
 import com.example.kinoapp2.ui.fragments.FragmentInteractorListener;
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, FragmentInteractorListener {
+
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
     public static boolean isOnline(Context context)
     {
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
             getSupportFragmentManager().beginTransaction()
+                    .addToBackStack(BACK_STACK_ROOT_TAG)
                     .add(R.id.frr, new Fragment1())
                     .commit();
     }
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         fragment2.setFilmBundle(bundle);
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
                 .replace(R.id.frr, new Fragment2())
                 .commit();
     }

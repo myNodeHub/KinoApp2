@@ -9,7 +9,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Film implements Parcelable {
+public class Film implements Parcelable, Comparable<Film> {
 
     @SerializedName("id")
     @Expose
@@ -36,10 +36,10 @@ public class Film implements Parcelable {
     @Expose
     private List<String> genres = new ArrayList<>();
 
-    public Film() {                  ///////////////////////////
-    }                               ///////////////////////////
+    public Film() {
+    }
 
-    public Film(Integer id, String localizedName, String name, Integer year,                  ///////////////////////////
+    public Film(Integer id, String localizedName, String name, Integer year,
                 String rating, String imageUrl, String description, List<String> genres) {
         this.id = id;
         this.localizedName = localizedName;
@@ -49,7 +49,7 @@ public class Film implements Parcelable {
         this.imageUrl = imageUrl;
         this.description = description;
         this.genres = genres;
-    }                                           ///////////////////////////
+    }
 
     public static final Creator<Film> CREATOR = new Creator<Film>() {
         @Override
@@ -62,10 +62,10 @@ public class Film implements Parcelable {
             String rating = parcel.readString();
             String imageUrl = parcel.readString();
             String description = parcel.readString();
-            List <String> genres = new ArrayList<>();                 ///////////////////////////
-            parcel.readList(genres, String.class.getClassLoader());  ///////////////////////////
+            List <String> genres = new ArrayList<>();
+            parcel.readList(genres, String.class.getClassLoader());
 
-            return new Film(id, localizedName, name, year, rating, imageUrl, description, genres); ///////////////////////////
+            return new Film(id, localizedName, name, year, rating, imageUrl, description, genres);
         }
 
         @Override
@@ -156,5 +156,25 @@ public class Film implements Parcelable {
         dest.writeString(imageUrl); //dest.writeValue(imageUrl);
         dest.writeString(description);
         dest.writeList(genres);
+    }
+
+    @Override
+    public int compareTo(Film o) {
+        int result = this.localizedName.compareTo(o.localizedName);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id='" + id + '\'' +
+                ", localizedName= " + localizedName +
+                ", name= " + name +
+                ", year= " + year +
+                ", rating= " + rating +
+                ", imageUrl= " + imageUrl +
+                ", description= " + description +
+                ", genres='" + genres + '\'' +
+                '}';
     }
 }

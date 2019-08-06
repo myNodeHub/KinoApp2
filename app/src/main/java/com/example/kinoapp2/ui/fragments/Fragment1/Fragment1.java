@@ -2,6 +2,8 @@ package com.example.kinoapp2.ui.fragments.Fragment1;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import com.example.kinoapp2.data.model.Films;
 import com.example.kinoapp2.data.model.Genre;
 import com.example.kinoapp2.ui.fragments.FragmentInteractorListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +38,7 @@ import retrofit2.Response;
  */
 public class Fragment1 extends Fragment {
 
+
     @Inject
     Service service;
 
@@ -47,12 +51,30 @@ public class Fragment1 extends Fragment {
     RecyclerView recViwFilm, recViwGenre;
     public RecyclerViewAdapterGenre recyclerViewAdapterGenre;
     public RecyclerViewAdapterFilm recyclerViewAdapterFilm;
+
     List<Film> filmList = new ArrayList<>();
+
     List<Genre> sortedGenre = new ArrayList<>();
 
     private List<Film> listOfFilms;
     private List<String> listOfGenres = new ArrayList<>();
 
+    public  static Bundle mySaveInstasnceState = new Bundle();
+
+
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putParcelableArrayList("film", (ArrayList<? extends Parcelable>) filmList);
+//        System.out.println(filmList + "%%%");
+//    }
+//
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        mySaveInstasnceState.putParcelableArrayList("film", (ArrayList<? extends Parcelable>) filmList);
+//        System.out.println(filmList + "%%%");
+//    }
 
     @Override
     public void onAttach(Context context) {
@@ -68,7 +90,6 @@ public class Fragment1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment1, container, false);
 
-
         recViwGenre = view.findViewById(R.id.recViwGenre);
         recViwFilm = view.findViewById(R.id.recViwFilm);
 
@@ -76,6 +97,13 @@ public class Fragment1 extends Fragment {
         recyclerViewAdapterFilm = new RecyclerViewAdapterFilm(context.getApplicationContext(), fragmentInteractorListener);
         recViwFilm.setLayoutManager(new GridLayoutManager(context, 2));
         recViwFilm.setAdapter(recyclerViewAdapterFilm); //присвоение рец.вью адаптера
+
+//        if(mySaveInstasnceState != null)
+//        {if(mySaveInstasnceState.getParcelableArrayList("film") != null)
+//            System.out.println(mySaveInstasnceState.getString("film") + "!!!!! !!!! !!!!");
+//        List<Film> =
+//            recyclerViewAdapterFilm.setData(mySaveInstasnceState.getParcelableArrayList("film"));
+//        }
 
         recyclerViewAdapterGenre = new RecyclerViewAdapterGenre(context.getApplicationContext(), recyclerViewAdapterFilm);
         recViwGenre.setLayoutManager(new LinearLayoutManager(context.getApplicationContext())); //присвоение рец.вью лайоутМэнеджера
@@ -86,6 +114,9 @@ public class Fragment1 extends Fragment {
             public void onResponse(Call<Films> call, Response<Films> response) {
                 films = response.body();
                 filmList = films.getFilms();
+                Collections.sort(filmList);
+
+
                 recyclerViewAdapterFilm.setData(filmList);
                 recyclerViewAdapterGenre.setData(filmList);
 
