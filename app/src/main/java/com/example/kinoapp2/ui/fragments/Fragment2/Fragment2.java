@@ -33,6 +33,16 @@ public class Fragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragment2, container, false);
 
         backArrow_tv = view.findViewById(R.id.backArrow_tv);
+
+        backArrow_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+
+            }
+        });
+
+
         image_url_tv = view.findViewById(R.id.image_url_tv);
 
         localized_name_tv = view.findViewById(R.id.localized_name_tv);
@@ -60,4 +70,6 @@ public class Fragment2 extends Fragment {
 
         bundleFr = bundle;
     }
+
+
 }

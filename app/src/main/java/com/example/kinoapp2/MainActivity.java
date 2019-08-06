@@ -67,4 +67,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                 .replace(R.id.frr, new Fragment2())
                 .commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
 }
