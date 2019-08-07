@@ -1,8 +1,10 @@
 package com.example.kinoapp2;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.kinoapp2.data.model.Film;
 import com.example.kinoapp2.data.model.Genre;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +24,7 @@ public class RecyclerViewAdapterGenre extends RecyclerView.Adapter<RecyclerViewA
     private List<Film> sortedListOfFilms = new ArrayList<>(); //итог для сетдаты 2го адаптера
     private RecyclerViewAdapterFilm recyclerViewAdapterFilm2;
     Context context;
+    private int row_index = -1;
 
     public RecyclerViewAdapterGenre(Context context, RecyclerViewAdapterFilm recyclerViewAdapterFilm2) {
         listOfFilms = new ArrayList<>();
@@ -64,14 +68,23 @@ public class RecyclerViewAdapterGenre extends RecyclerView.Adapter<RecyclerViewA
                     }
                 }
                 recyclerViewAdapterFilm2.setData(sortedListOfFilms);
+                row_index=position;
+                notifyDataSetChanged();
             }
-    });
+        });
+        if(row_index==position){
+            holder.cardViewGenre.setBackgroundColor(Color.parseColor("#FFEBCD"));
+        }
+        else
+        {
+            holder.cardViewGenre.setBackgroundColor(Color.WHITE);
+        }
     }
-
     @Override
     public int getItemCount() {
         return listOfUnicGenres.size();
     }
+
     public void setData(List<Film> data) {
         this.listOfFilms.addAll(data);
         notifyDataSetChanged();

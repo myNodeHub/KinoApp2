@@ -9,23 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.kinoapp2.ui.fragments.FragmentInteractorListener;
 import com.example.kinoapp2.data.model.Film;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAdapterFilm.ViewHolder> {
     private List<Film> listOfFilms;
     Context context;
     private FragmentInteractorListener fragmentInteractorListener;
-
     public RecyclerViewAdapterFilm(Context context, FragmentInteractorListener fragmentInteractorListener) {
-
         listOfFilms = new ArrayList<>();
-        this.context= context;
+        this.context = context;
         this.fragmentInteractorListener = fragmentInteractorListener;
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -48,12 +47,17 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         final Film theFilm = listOfFilms.get(position);
 
-        Picasso.with(context).load(theFilm.getImageUrl())
-                .placeholder(context.getResources().getDrawable(R.drawable.moviedefolt))
-                .error(context.getResources().getDrawable(R.drawable.moviedefolt)).into(holder.card_view_image);
+        Glide
+                .with(context)
+                .load(theFilm.getImageUrl())
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.moviedefolt)
+                        .fitCenter())
+                .override(750, 500)
+                .into(holder.card_view_image);
+
 
         holder.itemFilm.setText(listOfFilms.get(position).getLocalizedName());
 
@@ -62,17 +66,12 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
             public void onClick(View v) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString("LocalizedName", listOfFilms.get(position).getLocalizedName());
-                bundle.putString("Name", listOfFilms.get(position).getName());
-                bundle.putInt("Year", listOfFilms.get(position).getYear());
-                bundle.putString("Rating", listOfFilms.get(position).getRating());
-                bundle.putString("Description", listOfFilms.get(position).getDescription());
-                bundle.putString("ImageUrl", listOfFilms.get(position).getImageUrl());
-
+                bundle.putParcelable("filmParcelable", listOfFilms.get(position));
                 fragmentInteractorListener.setBundle(bundle);
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return listOfFilms.size();
