@@ -21,7 +21,7 @@ import java.util.List;
 public class RecyclerViewAdapterGenre extends RecyclerView.Adapter<RecyclerViewAdapterGenre.ViewHolder> {
     private List<Film> listOfFilms;
     private List<Genre> listOfUnicGenres;
-    private List<Film> sortedListOfFilms = new ArrayList<>(); //итог для сетдаты 2го адаптера
+    private List<Film> sortedListOfFilms = new ArrayList<>(); //итоговый массив для setData RecyclerViewAdapterFilm
     private RecyclerViewAdapterFilm recyclerViewAdapterFilm2;
     Context context;
     private int row_index = -1;
@@ -56,20 +56,19 @@ public class RecyclerViewAdapterGenre extends RecyclerView.Adapter<RecyclerViewA
             public void onClick(View v) {
                 sortedListOfFilms.clear();
 
-                Iterator<Film> filmIterator = listOfFilms.iterator();
+                Iterator<Film> filmIterator = listOfFilms.iterator(); //по клику на жанр сравниваю его с имеющимися жанрами в listOfFilms
                 while (filmIterator.hasNext()) {
                     Film nextFilm = filmIterator.next();
 
                     for (String genre : nextFilm.getGenres()) {
-                        if (genre.equals(listOfUnicGenres.get(position).getUnicGenre())) {
-                            System.out.println("&&&&&&&&&&" + nextFilm);
-                            sortedListOfFilms.add(nextFilm);
+                        if (genre.equals(listOfUnicGenres.get(position).getUnicGenre())) { //если такой жанр у фильма присутствует,
+                            sortedListOfFilms.add(nextFilm); // заполняю им массив sortedListOfFilms
                         }
                     }
                 }
-                recyclerViewAdapterFilm2.setData(sortedListOfFilms);
-                row_index=position;
-                notifyDataSetChanged();
+                recyclerViewAdapterFilm2.setData(sortedListOfFilms); //и передаю его в recyclerViewAdapterFilm2
+                row_index=position; //меняю флаг  для смены цвета на элементе
+                notifyDataSetChanged(); //обнавляю
             }
         });
         if(row_index==position){

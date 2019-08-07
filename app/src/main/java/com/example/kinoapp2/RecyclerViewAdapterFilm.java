@@ -48,22 +48,18 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Film theFilm = listOfFilms.get(position);
-
         Glide
                 .with(context)
                 .load(theFilm.getImageUrl())
                 .apply(new RequestOptions()
-                        .placeholder(R.drawable.moviedefolt)
+                        .placeholder(R.drawable.moviedefolt)         //дефолтное изображение
                         .fitCenter())
                 .override(750, 500)
                 .into(holder.card_view_image);
-
-
         holder.itemFilm.setText(listOfFilms.get(position).getLocalizedName());
-
         holder.cardViewFilm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {  //передаю bundle объект
 
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("filmParcelable", listOfFilms.get(position));
@@ -71,7 +67,6 @@ public class RecyclerViewAdapterFilm extends RecyclerView.Adapter<RecyclerViewAd
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return listOfFilms.size();

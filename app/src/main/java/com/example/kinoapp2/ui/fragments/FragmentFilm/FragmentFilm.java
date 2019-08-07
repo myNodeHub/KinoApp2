@@ -1,8 +1,6 @@
-package com.example.kinoapp2.ui.fragments.Fragment2;
+package com.example.kinoapp2.ui.fragments.FragmentFilm;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,23 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.kinoapp2.R;
 import com.example.kinoapp2.data.model.Film;
-import com.squareup.picasso.Picasso;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-
-public class Fragment2 extends Fragment {
+public class FragmentFilm extends Fragment {
     TextView localized_name_tv, backArrow_tv, name_tv, year_tv, rating_tv, description_tv;
     ImageView image_url_tv;
     public static Film film;
 
-    public Fragment2 () {
+    public FragmentFilm () {
     }
     @Override
     public void onAttach(Context context) {
@@ -44,7 +35,7 @@ public class Fragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragment2, container, false);
 
         backArrow_tv = view.findViewById(R.id.backArrow_tv);
-
+        //обработчик возврата во FragmentListOfFilms
         backArrow_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +50,7 @@ public class Fragment2 extends Fragment {
         rating_tv = view.findViewById(R.id.rating_tv);
         description_tv = view.findViewById(R.id.description_tv);
 
+        //установка значений из bundle
         localized_name_tv.setText(film.getLocalizedName());
         name_tv.setText(film.getName());
         year_tv.setText("Год: "+ film.getYear());
@@ -72,16 +64,16 @@ public class Fragment2 extends Fragment {
         Glide.with(getContext())
                 .load(film.getImageUrl())
                 .apply(new RequestOptions()
-                        .placeholder(R.drawable.moviedefolt)
+                        .placeholder(R.drawable.moviedefoltmicro)
                 .fitCenter())
                 .override(750,750)
                 .into(image_url_tv);
 
         return view;
     }
+    //принимаю bundle
     public void setFilmBundle(Bundle bundle) {
         Film film = bundle.getParcelable("filmParcelable");
-        System.out.println("777" + film);
         this.film = film;
     }
 }

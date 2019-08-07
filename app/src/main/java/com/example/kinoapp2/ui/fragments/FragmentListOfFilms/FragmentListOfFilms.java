@@ -1,9 +1,7 @@
-package com.example.kinoapp2.ui.fragments.Fragment1;
+package com.example.kinoapp2.ui.fragments.FragmentListOfFilms;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +34,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment1 extends Fragment {
+public class FragmentListOfFilms extends Fragment {
 
     @Inject
     Service service;
@@ -83,7 +81,7 @@ public class Fragment1 extends Fragment {
             public void onResponse(Call<Films> call, Response<Films> response) {
                 films = response.body();
                 filmList = films.getFilms();
-                Collections.sort(filmList);
+                Collections.sort(filmList); //сортировка по localized_name
 
 
                 recyclerViewAdapterFilm.setData(filmList);

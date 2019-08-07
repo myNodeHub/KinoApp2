@@ -2,8 +2,6 @@ package com.example.kinoapp2.ui.fragments;
 
 import android.os.Bundle;
 
-import com.example.kinoapp2.data.model.Film;
-
-public interface FragmentInteractorListener {
+public interface FragmentInteractorListener { //интерфейс для передачи параметров во фрагмент
     public void setBundle(Bundle bundle);
 }

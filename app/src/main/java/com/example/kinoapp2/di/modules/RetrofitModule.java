@@ -3,9 +3,7 @@ package com.example.kinoapp2.di.modules;
 import com.example.kinoapp2.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -13,26 +11,21 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@Module
+@Module //модуль работы с ретрофитом
 public class RetrofitModule {
-
     @Singleton
     @Provides
     public Service getApi(Retrofit retrofit){
         return retrofit.create(Service.class);
     }
-
     @Singleton
     @Provides
     public OkHttpClient getClient() {
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
         return client;
     }
-
     @Singleton
     @Provides
     public Gson getGson() {
@@ -40,11 +33,8 @@ public class RetrofitModule {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
-
         return gson;
     }
-
-
     @Singleton
     @Provides
     public Retrofit getRetrofit(OkHttpClient client, Gson gson) {
@@ -54,7 +44,6 @@ public class RetrofitModule {
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
         return retrofit;
     }
 }

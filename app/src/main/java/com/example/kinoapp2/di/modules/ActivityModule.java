@@ -1,21 +1,21 @@
 package com.example.kinoapp2.di.modules;
 
 import com.example.kinoapp2.MainActivity;
-import com.example.kinoapp2.ui.fragments.Fragment1.Fragment1;
-import com.example.kinoapp2.ui.fragments.Fragment2.Fragment2;
+import com.example.kinoapp2.ui.fragments.FragmentListOfFilms.FragmentListOfFilms;
+import com.example.kinoapp2.ui.fragments.FragmentFilm.FragmentFilm;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
 public interface ActivityModule {
-
+    //генерация AndroidInjector для возвращаемых типов
     @ContributesAndroidInjector
     abstract MainActivity contributesMainActivity();
-
+    //AppModule будет добавлен к данному сгенерированному сабкомпоненту
     @ContributesAndroidInjector(modules = {AppModule.class})
-    abstract Fragment1 contributesFragment1();
+    abstract FragmentListOfFilms contributesFragmentListOfFilms();
 
     @ContributesAndroidInjector
-    abstract Fragment2 contributesFragment2();
+    abstract FragmentFilm contributesFragmentFilm();
 }

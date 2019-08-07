@@ -1,20 +1,15 @@
 package com.example.kinoapp2;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.example.kinoapp2.data.model.Film;
-import com.example.kinoapp2.ui.fragments.Fragment1.Fragment1;
-import com.example.kinoapp2.ui.fragments.Fragment2.Fragment2;
+import com.example.kinoapp2.ui.fragments.FragmentListOfFilms.FragmentListOfFilms;
+import com.example.kinoapp2.ui.fragments.FragmentFilm.FragmentFilm;
 import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -23,9 +18,8 @@ import dagger.android.support.HasSupportFragmentInjector;
 import com.example.kinoapp2.ui.fragments.FragmentInteractorListener;
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, FragmentInteractorListener {
-
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
-
+    //Проверка подключения к интернету
     public static boolean isOnline(Context context)
     {
         ConnectivityManager cm =
@@ -45,32 +39,33 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         if ( !isOnline(getApplicationContext()) ){
             Toast.makeText(this, "Проверьте подключение к интернету", Toast.LENGTH_LONG).show();
         }
+        //разрешение инжекций
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); //установка фрагмента в активити
             getSupportFragmentManager().beginTransaction()
                     .addToBackStack(BACK_STACK_ROOT_TAG)
-                    .add(R.id.frr, new Fragment1())
+                    .add(R.id.frr, new FragmentListOfFilms())
                     .commit();
     }
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+    //вызываю по клику в RecyclerViewAdapterFilm, передаю bundle в созданый фрагмент, заменяю FragmentListOfFilms на FragmentFilm
     @Override
     public void setBundle(Bundle bundle) {
-        Fragment2 fragment2 = new Fragment2();
+        FragmentFilm fragment2 = new FragmentFilm();
         fragment2.setFilmBundle(bundle);
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
-                .replace(R.id.frr, new Fragment2())
+                .replace(R.id.frr, new FragmentFilm())
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 }

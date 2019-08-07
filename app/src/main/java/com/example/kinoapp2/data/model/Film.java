@@ -25,10 +25,10 @@ public class Film implements Parcelable, Comparable<Film> {
     private Integer year;
     @SerializedName("rating")
     @Expose
-    private String rating; //private Object rating;
+    private String rating;
     @SerializedName("image_url")
     @Expose
-    private String imageUrl; //private Object imageUrl;
+    private String imageUrl;
     @SerializedName("description")
     @Expose
     private String description;
@@ -152,8 +152,8 @@ public class Film implements Parcelable, Comparable<Film> {
         dest.writeString(localizedName);
         dest.writeString(name);
         dest.writeInt(year);
-        dest.writeString(rating); //dest.writeValue(rating);
-        dest.writeString(imageUrl); //dest.writeValue(imageUrl);
+        dest.writeString(rating);
+        dest.writeString(imageUrl);
         dest.writeString(description);
         dest.writeList(genres);
     }
