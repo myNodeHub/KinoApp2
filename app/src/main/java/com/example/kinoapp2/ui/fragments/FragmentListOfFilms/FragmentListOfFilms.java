@@ -110,7 +110,7 @@ public class FragmentListOfFilms extends Fragment {
             }
         });
         return view;
-
     }
+
 
 }

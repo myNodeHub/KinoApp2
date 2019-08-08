@@ -1,5 +1,6 @@
 package com.example.kinoapp2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); //установка фрагмента в активити
             getSupportFragmentManager().beginTransaction()
-                    .addToBackStack(BACK_STACK_ROOT_TAG)
                     .add(R.id.frr, new FragmentListOfFilms())
                     .commit();
     }
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         fragment2.setFilmBundle(bundle);
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
                 .replace(R.id.frr, new FragmentFilm())
                 .commit();
     }
